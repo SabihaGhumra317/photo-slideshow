@@ -1,0 +1,68 @@
+CREATE DATABASE IF NOT EXISTS photo_slideshow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE photo_slideshow;
+CREATE TABLE IF NOT EXISTS visitors (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ display_name VARCHAR(80) NOT NULL,
+ token_hash CHAR(64) NOT NULL UNIQUE,
+ code_hash CHAR(64) NOT NULL UNIQUE,
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ last_seen_at DATETIME NULL,
+ INDEX idx_display_name(display_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS consents (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ visitor_id BIGINT UNSIGNED NOT NULL,
+ text_version VARCHAR(20) NOT NULL,
+ ip_hash CHAR(64) NOT NULL,
+ consented_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ withdrawn_at DATETIME NULL,
+ FOREIGN KEY(visitor_id) REFERENCES visitors(id) ON DELETE CASCADE,
+ INDEX idx_consent_active(visitor_id,withdrawn_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS photos (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ visitor_id BIGINT UNSIGNED NOT NULL,
+ consent_id BIGINT UNSIGNED NOT NULL,
+ stored_name VARCHAR(80) NOT NULL UNIQUE,
+ mime_type VARCHAR(30) NOT NULL,
+ bytes INT UNSIGNED NOT NULL,
+ width SMALLINT UNSIGNED NOT NULL,
+ height SMALLINT UNSIGNED NOT NULL,
+ status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+ is_hidden TINYINT(1) NOT NULL DEFAULT 0,
+ created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+ approved_at DATETIME(6) NULL,
+ updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+ FOREIGN KEY(visitor_id) REFERENCES visitors(id) ON DELETE CASCADE,
+ FOREIGN KEY(consent_id) REFERENCES consents(id) ON DELETE RESTRICT,
+ INDEX idx_slide(status,is_hidden,approved_at,id),
+ INDEX idx_visitor(visitor_id,created_at,id),
+ INDEX idx_expiry(created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS settings (
+ setting_key VARCHAR(80) PRIMARY KEY,
+ setting_value VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS admins (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ username VARCHAR(80) NOT NULL UNIQUE,
+ password_hash VARCHAR(255) NOT NULL,
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS upload_attempts (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ visitor_id BIGINT UNSIGNED NULL,
+ ip_hash CHAR(64) NOT NULL,
+ attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ successful TINYINT(1) NOT NULL DEFAULT 0,
+ FOREIGN KEY(visitor_id) REFERENCES visitors(id) ON DELETE SET NULL,
+ INDEX idx_ip_time(ip_hash,attempted_at),
+ INDEX idx_visitor_time(visitor_id,attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS login_attempts (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ ip_hash CHAR(64) NOT NULL,
+ attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ INDEX idx_login_rate(ip_hash,attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO settings(setting_key, setting_value) VALUES ('slide_duration_seconds','8'),('retention_days','90') ON DUPLICATE KEY UPDATE setting_value=setting_value;

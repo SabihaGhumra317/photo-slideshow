@@ -1,0 +1,7 @@
+Options -Indexes
+<FilesMatch "^\.(env|git|htaccess)">
+ Require all denied
+</FilesMatch>
+<FilesMatch "\.(sql|md|log|ini)$">
+ Require all denied
+</FilesMatch>

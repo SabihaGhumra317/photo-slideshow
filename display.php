@@ -1,0 +1,4 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__.'/config/bootstrap.php';
+?><!doctype html><html lang="<?=h(language())?>"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PhotoFlow • Live Display</title><link rel="stylesheet" href="assets/css/style.css"></head><body class="display-body"><main class="screen" aria-label="Live public photo slideshow"><div class="slide-layer" id="layerA"></div><div class="slide-layer" id="layerB"></div><div class="screen-overlay"><span class="brand">◈ PhotoFlow</span><div id="caption" aria-live="polite"></div></div><div class="empty-state" id="emptyState"><div class="empty-icon">✦</div><h1>Moments in motion.</h1><p>Waiting for approved photos…</p></div></main><script src="assets/js/display.js" defer></script></body></html>
