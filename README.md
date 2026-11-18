@@ -129,7 +129,34 @@ PHP test scripts and manual testing instructions are available in the `tests/` f
 
 ## Screenshots
 
-Screenshots of the visitor page, administrator dashboard, approval workflow, and slideshow will be added here.
+## Project Screenshots
+
+### Visitor Registration
+![Visitor Registration](Screenshots/Visitor-page.png)
+
+### Visitor Upload
+![Visitor Upload](Screenshots/photo-uploading.png)
+
+### Visitor Code
+![Visitor Code](Screenshots/visitor-code.png)
+
+### Returning Visitor
+![Returning Visitor](Screenshots/old-visitor.png)
+
+### Visitor Logout
+![Visitor Logout](Screenshots/visitor-logout.png)
+
+### Visitor Photos
+![Visitor Photos](Screenshots/visitor-photos.png)
+
+### Admin Dashboard
+![Admin Dashboard](Screenshots/admin-dashboard.png)
+
+### Admin Photo Approval
+![Admin Photo Approval](Screenshots/admin-aproval_Dashboard.png)
+
+### TV Slideshow
+![TV Slideshow](Screenshots/TV-display.png)
 
 ## Demo
 
