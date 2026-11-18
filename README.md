@@ -153,7 +153,7 @@ PHP test scripts and manual testing instructions are available in the `tests/` f
 ![Admin Dashboard](Screenshots/admin-dashboard.png)
 
 ### Admin Photo Approval
-![Admin Photo Approval](Screenshots/admin-dashboard (2).png)
+![Admin Photo Approval](Screenshots/admin-dashboard(2).png)
 
 ### TV Slideshow
 ![TV Slideshow](Screenshots/TV-display.png)
