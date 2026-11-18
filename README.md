@@ -132,7 +132,7 @@ PHP test scripts and manual testing instructions are available in the `tests/` f
 ## Project Screenshots
 
 ### Visitor Registration
-![Visitor Registration](Screenshots/Visitor-page.png)
+![Visitor Registration](Screenshots/visitor-page(1).png)
 
 ### Visitor Upload
 ![Visitor Upload](Screenshots/photo-uploading.png)
@@ -153,7 +153,7 @@ PHP test scripts and manual testing instructions are available in the `tests/` f
 ![Admin Dashboard](Screenshots/admin-dashboard.png)
 
 ### Admin Photo Approval
-![Admin Photo Approval](Screenshots/admin-aproval_Dashboard.png)
+![Admin Photo Approval](Screenshots/admin-dashboard (2).png)
 
 ### TV Slideshow
 ![TV Slideshow](Screenshots/TV-display.png)
